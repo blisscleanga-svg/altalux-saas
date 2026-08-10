@@ -880,7 +880,7 @@
     </div>
     <div class="field" style="margin-top:14px;">
       <label for="si-comment">Comment (optional)</label>
-      <textarea id="si-comment">The service has been completed. You may proceed with payment at your earliest convenience. Thank you for choosing AltaLux!</textarea>
+      <textarea id="si-comment">The service has been completed. You may proceed with payment at your earliest convenience. Thank you for your business!</textarea>
     </div>
     <div class="field" style="margin-top:14px;">
       <label for="si-due-by">Due By (optional)</label>
@@ -995,8 +995,8 @@
   if (window.APP_CONFIG && window.APP_CONFIG.loaded) applyBrandLogo();
 
   // ---------- Supabase ----------
-  const SUPABASE_URL = 'https://xmhsehfdmiqbwhpqjgon.supabase.co';
-  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhtaHNlaGZkbWlxYndocHFqZ29uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMzODU5NzQsImV4cCI6MjA5ODk2MTk3NH0.J2UOp-pgzP6ByvDBoHcocFAmarWdlDK8M31YgKrUNss';
+  const SUPABASE_URL = 'https://bgbjrmkgjhjnvyffpxiu.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJnYmpybWtnamhqbnZ5ZmZweGl1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODYzMjExMzIsImV4cCI6MjEwMTg5NzEzMn0.6Z_NECrOPnM48TtSaPepoCd5v17G8HcBWHrnHBY3gqM';
   const SEND_EMAIL_FUNCTION_URL = SUPABASE_URL + '/functions/v1/send-email';
   const BUSINESS_ID = (window.APP_CONFIG && window.APP_CONFIG.businessId) || 'altalux';
   const SQUARE_FUNCTION_URL = SUPABASE_URL + '/functions/v1/square-payment';
@@ -1831,7 +1831,7 @@
   // (sent_at) y tiene un public_token real.
   function buildPayLink(job){
     if (!job.invoice || !job.invoice.publicToken || !job.invoice.sentAt) return null;
-    return 'https://app.altaluxdetail.com/pay/?token=' + encodeURIComponent(job.invoice.publicToken);
+    return 'https://altalux.io/pay/?token=' + encodeURIComponent(job.invoice.publicToken);
   }
 
   document.getElementById('dj-share-payment-copy').addEventListener('click', async () => {
@@ -1849,7 +1849,7 @@
     const job = findJob(currentJobId);
     const link = document.getElementById('dj-share-payment-input').value;
     if (!link) return;
-    navigator.share({ title: `AltaLux Invoice #${job ? job.jobNumber : ''}`, text: 'Here is your payment link:', url: link })
+    navigator.share({ title: `Invoice #${job ? job.jobNumber : ''}`, text: 'Here is your payment link:', url: link })
       .catch(() => {});
   });
 
@@ -2491,7 +2491,7 @@
     const job = findJob(currentJobId);
     const token = job && job.invoice && job.invoice.publicToken;
     if (token){
-      window.open('https://app.altaluxdetail.com/pay/?token=' + encodeURIComponent(token), '_blank');
+      window.open('https://altalux.io/pay/?token=' + encodeURIComponent(token), '_blank');
     } else {
       showToast('Send the invoice first to generate a preview link.', 'error');
     }
@@ -2756,7 +2756,7 @@
     if (!job || !job.supabaseId) return;
     document.getElementById('si-amount').textContent = formatCurrency(balanceDue(job));
     document.getElementById('si-title').value = '';
-    document.getElementById('si-comment').value = 'The service has been completed. You may proceed with payment at your earliest convenience. Thank you for choosing AltaLux!';
+    document.getElementById('si-comment').value = 'The service has been completed. You may proceed with payment at your earliest convenience. Thank you for your business!';
     const dueDate = new Date();
     dueDate.setDate(dueDate.getDate() + 7);
     document.getElementById('si-due-by').value = toInputDate(dueDate);

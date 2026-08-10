@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Invoice & Payment | AltaLux Mobile Detail</title>
+<title>Invoice & Payment</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -162,8 +162,7 @@
     <div class="error-icon">⚠️</div>
     <h2>Link Not Valid</h2>
     <p>This payment link is invalid, has expired, or has already been used.</p>
-    <p>Please contact AltaLux Mobile Detail for assistance.</p>
-    <p><a href="https://altaluxdetail.com">altaluxdetail.com</a></p>
+    <p>Please contact the business that sent you this link for assistance.</p>
   </div>
 
   <!-- Documento (oculto hasta tener datos) -->
@@ -240,8 +239,8 @@
 (function(){
   "use strict";
 
-  var SUPABASE_URL = 'https://xmhsehfdmiqbwhpqjgon.supabase.co';
-  var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhtaHNlaGZkbWlxYndocHFqZ29uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMzODU5NzQsImV4cCI6MjA5ODk2MTk3NH0.J2UOp-pgzP6ByvDBoHcocFAmarWdlDK8M31YgKrUNss';
+  var SUPABASE_URL = 'https://bgbjrmkgjhjnvyffpxiu.supabase.co';
+  var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJnYmpybWtnamhqbnZ5ZmZweGl1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODYzMjExMzIsImV4cCI6MjEwMTg5NzEzMn0.6Z_NECrOPnM48TtSaPepoCd5v17G8HcBWHrnHBY3gqM';
   var SQUARE_FUNCTION_URL = SUPABASE_URL + '/functions/v1/square-payment';
   var TRACK_EVENT_URL = SUPABASE_URL + '/functions/v1/track-payment-event';
   var SQUARE_APP_ID = 'sq0idp-jVMn1EDrut74rDnsRGgZrQ';
@@ -308,7 +307,7 @@
   }
 
   function renderInvoice(inv){
-    document.getElementById('doc-logo').alt = 'AltaLux Mobile Detail';
+    document.getElementById('doc-logo').alt = 'Business logo';
     document.getElementById('inv-number').textContent = inv.invoice_display_number || '—';
     document.getElementById('inv-issue-date').textContent = fmtDate(inv.created_at);
     document.getElementById('inv-due-date').textContent = inv.due_by ? fmtDate(inv.due_by) : 'Upon receipt';

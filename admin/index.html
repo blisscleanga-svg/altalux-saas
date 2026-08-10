@@ -2334,7 +2334,7 @@
 
     <div class="field" style="margin-top:14px;">
       <label for="si-comment">Comment <span style="color:var(--ink-faint); text-transform:none; font-weight:400;">(optional)</span></label>
-      <textarea id="si-comment">The service has been completed. You may proceed with payment at your earliest convenience. Thank you for choosing AltaLux!</textarea>
+      <textarea id="si-comment">The service has been completed. You may proceed with payment at your earliest convenience. Thank you for your business!</textarea>
     </div>
 
     <div class="field" style="margin-top:14px;">
@@ -2455,8 +2455,7 @@
       <div class="invoice-footer">
         <p class="modal-section-title" style="text-align:center;">Payment Terms</p>
         <p class="policy">Due upon receipt. A 25% non-refundable deposit is required to confirm your booking. Cancellations or rescheduling with less than 72 hours notice will forfeit the deposit. Our technicians rely on scheduled appointments for their income. Please be aware of your arrival window — if your vehicle is not available within 15 minutes of technician arrival, a $50 late fee will apply.</p>
-        <p class="thanks">Thank you for choosing AltaLux Mobile Detail</p>
-        <p>altaluxdetail.com · contact@altaluxdetail.com</p>
+        <p class="thanks">Thank you for your business</p>
       </div>
     </div>
 
@@ -3183,8 +3182,8 @@
   });
 
   // ---------- Supabase ----------
-  const SUPABASE_URL = 'https://xmhsehfdmiqbwhpqjgon.supabase.co';
-  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhtaHNlaGZkbWlxYndocHFqZ29uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMzODU5NzQsImV4cCI6MjA5ODk2MTk3NH0.J2UOp-pgzP6ByvDBoHcocFAmarWdlDK8M31YgKrUNss';
+  const SUPABASE_URL = 'https://bgbjrmkgjhjnvyffpxiu.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJnYmpybWtnamhqbnZ5ZmZweGl1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODYzMjExMzIsImV4cCI6MjEwMTg5NzEzMn0.6Z_NECrOPnM48TtSaPepoCd5v17G8HcBWHrnHBY3gqM';
   const SQUARE_FUNCTION_URL = SUPABASE_URL + '/functions/v1/square-payment';
   const SEND_EMAIL_FUNCTION_URL = SUPABASE_URL + '/functions/v1/send-email';
 
@@ -5642,7 +5641,7 @@
   // nada válido que compartir.
   function buildPayLink(job){
     if (!job.invoice || !job.invoice.publicToken || !job.invoice.sentAt) return null;
-    return 'https://app.altaluxdetail.com/pay/?token=' + encodeURIComponent(job.invoice.publicToken);
+    return 'https://altalux.io/pay/?token=' + encodeURIComponent(job.invoice.publicToken);
   }
 
   document.getElementById('modal-share-payment-copy').addEventListener('click', async () => {
@@ -5660,7 +5659,7 @@
     const job = findJob(currentModalJobId);
     const link = document.getElementById('modal-share-payment-input').value;
     if (!link) return;
-    navigator.share({ title: `AltaLux Invoice #${job ? job.jobNumber : ''}`, text: 'Here is your payment link:', url: link })
+    navigator.share({ title: `Invoice #${job ? job.jobNumber : ''}`, text: 'Here is your payment link:', url: link })
       .catch(() => {});
   });
 
@@ -5891,7 +5890,7 @@
     const amount = balanceDue(job);
     document.getElementById('si-amount').textContent = formatCurrency(amount);
     document.getElementById('si-title').value = '';
-    document.getElementById('si-comment').value = 'The service has been completed. You may proceed with payment at your earliest convenience. Thank you for choosing AltaLux!';
+    document.getElementById('si-comment').value = 'The service has been completed. You may proceed with payment at your earliest convenience. Thank you for your business!';
     document.getElementById('si-due-by').value = defaultDueDate();
     document.getElementById('si-link-preview-wrap').hidden = true;
     document.getElementById('si-link-preview').value = '';
@@ -6274,7 +6273,7 @@
     const job = findJob(currentRecordPaymentJobId);
     const token = job && job.invoice && job.invoice.publicToken;
     if (token){
-      window.open('https://app.altaluxdetail.com/pay/?token=' + encodeURIComponent(token), '_blank');
+      window.open('https://altalux.io/pay/?token=' + encodeURIComponent(token), '_blank');
     } else {
       showToast('Send the invoice first to generate a preview link.', 'error');
     }
@@ -6482,8 +6481,8 @@
     return {
       address: s.address ? `${s.address}, ${cityLine || 'Roswell, GA 30075'}` : (cityLine || 'Roswell, GA 30075'),
       phone: s.phone || '',
-      email: s.email || 'contact@altaluxdetail.com',
-      website: (s.website || 'altaluxdetail.com').replace(/^https?:\/\//, '')
+      email: s.email || '',
+      website: (s.website || '').replace(/^https?:\/\//, '')
     };
   }
 

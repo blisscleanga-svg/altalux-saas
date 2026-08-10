@@ -1263,8 +1263,8 @@
   "use strict";
 
   // ---------- Supabase ----------
-  const SUPABASE_URL = 'https://xmhsehfdmiqbwhpqjgon.supabase.co';
-  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhtaHNlaGZkbWlxYndocHFqZ29uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMzODU5NzQsImV4cCI6MjA5ODk2MTk3NH0.J2UOp-pgzP6ByvDBoHcocFAmarWdlDK8M31YgKrUNss';
+  const SUPABASE_URL = 'https://bgbjrmkgjhjnvyffpxiu.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJnYmpybWtnamhqbnZ5ZmZweGl1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODYzMjExMzIsImV4cCI6MjEwMTg5NzEzMn0.6Z_NECrOPnM48TtSaPepoCd5v17G8HcBWHrnHBY3gqM';
   const SQUARE_FUNCTION_URL = SUPABASE_URL + '/functions/v1/square-payment';
   const SEND_EMAIL_FUNCTION_URL = SUPABASE_URL + '/functions/v1/send-email';
 
@@ -2077,7 +2077,7 @@
       fetch(SEND_EMAIL_FUNCTION_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + SUPABASE_ANON_KEY, apikey: SUPABASE_ANON_KEY },
-        body: JSON.stringify({ action, businessId: 'altalux', data: commonData })
+        body: JSON.stringify({ action, businessId: (window.APP_CONFIG && window.APP_CONFIG.businessId) || 'altalux', data: commonData })
       }).catch(err => console.warn('[send-email] "' + action + '" request failed (non-blocking):', err));
     }
 
