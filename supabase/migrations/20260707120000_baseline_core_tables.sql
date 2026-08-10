@@ -38,7 +38,11 @@
 --      because it carries a reference.)
 --
 -- This file is NOT idempotent (plain `create table`/`create policy`,
--- no `if not exists`) — unlike every other migration in this repo.
+-- no `if not exists`) — unlike most migrations in this repo (a couple
+-- of others, e.g. 20260718150000_fix_duplicate_job_number.sql's bare
+-- `add constraint` and 20260709230043_e2e_fixes.sql's bare
+-- `create policy`, are equally non-idempotent, but this file's sheer
+-- size makes it the one most likely to get re-run by habit).
 -- Re-running `db push` against a database that already has these
 -- tables will fail. If a from-scratch retry is ever needed, wipe the
 -- whole public schema first (see the plan's Task 4 for the exact
@@ -140,7 +144,7 @@ alter table bookings enable row level security;
 -- into this table, never SELECTs — this is the only RLS policy this
 -- table needs pre-migration, and the only one this repo's migrations
 -- never (re)create because it was never dropped/replaced, only ever
--- added-to (see e2e_fixes_2026_07_10.sql, security_rls_audit_part2.sql
+-- added-to (see 20260709230043_e2e_fixes.sql, 20260715122419_security_rls_audit_part2.sql
 -- for the `authenticated` side).
 create policy "Allow public insert on bookings" on public.bookings
   for insert to anon with check (true);
