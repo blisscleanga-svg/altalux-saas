@@ -10,8 +10,17 @@
 -- no AltaLux tenant data in it, so once the copy is done, remove the
 -- source rows. service_templates/addon_templates keep their 21+10
 -- rows — those were already copied by the time this file runs.
+--
+-- 20260707121103_employees.sql separately seeds 2 real employees
+-- (Luis Pabón, Dario Pabón — real emails/phone) directly on the
+-- `employees` table, unconditionally, not gated by the phase_a seed
+-- above. Purged here too. Safe only because `jobs` is guaranteed
+-- empty at this point in a fresh clone (jobs.assigned_to references
+-- employees(id) — deleting a referenced employee would fail if any
+-- job pointed at one).
 -- ============================================================
 
 delete from business_services where business_id = 'altalux';
 delete from business_addons where business_id = 'altalux';
 delete from business_settings where business_id = 'altalux';
+delete from employees where business_id = 'altalux';

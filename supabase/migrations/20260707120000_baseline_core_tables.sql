@@ -22,13 +22,27 @@
 --      20260718150000_fix_duplicate_job_number.sql via a bare
 --      `ADD CONSTRAINT`, which has no IF NOT EXISTS form. Included
 --      here would make that migration fail with "already exists".
---   2. The `assigned_to`/`start_time`/`end_time` columns on `jobs`
---      and the `service_id`/`original_service_name`/etc. columns on
---      `invoices` carry inline `REFERENCES` — if pre-created here
---      without the FK, the later `ADD COLUMN IF NOT EXISTS` would
---      no-op and the FK would silently never get added. Left out of
---      this file entirely so the later migrations create both the
---      column and its FK together, as originally written.
+--   2. `jobs.assigned_to` (-> employees) and `jobs.service_id` /
+--      `invoices.service_id` (-> business_services) carry inline
+--      `REFERENCES` on the migrations that add them
+--      (20260707121103_employees.sql, 20260714214443_phase_b_invoicing.sql)
+--      — if pre-created here without the FK, the later
+--      `ADD COLUMN IF NOT EXISTS` would no-op and the FK would
+--      silently never get added. Left out of this file entirely so
+--      those later migrations create both the column and its FK
+--      together, as originally written. (Every OTHER column those
+--      same migrations add — `start_time`/`end_time` on `jobs`,
+--      `original_service_name`/`original_amount`/etc. on `invoices`
+--      — is a plain column with no FK; excluded from here for the
+--      same idempotent-ADD-COLUMN reason as everything else, not
+--      because it carries a reference.)
+--
+-- This file is NOT idempotent (plain `create table`/`create policy`,
+-- no `if not exists`) — unlike every other migration in this repo.
+-- Re-running `db push` against a database that already has these
+-- tables will fail. If a from-scratch retry is ever needed, wipe the
+-- whole public schema first (see the plan's Task 4 for the exact
+-- commands) rather than trying to re-run just this file.
 -- ============================================================
 
 -- ============================================================
