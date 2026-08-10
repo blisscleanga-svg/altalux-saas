@@ -2171,7 +2171,7 @@
       console.error('Square payment failed:', err);
       payBtn.disabled = false;
       payBtn.innerHTML = originalHtml;
-      showError(err.message && !err.message.includes('fetch') ? err.message : 'Something went wrong processing your payment. Please try again, or call us at (888) 853-0590.');
+      showError(err.message && !err.message.includes('fetch') ? err.message : 'Something went wrong processing your payment. Please try again.');
     }
   });
 

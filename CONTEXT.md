@@ -6,7 +6,7 @@ Este repo es la **plataforma SaaS** — el producto que cualquier negocio de
 detailing puede usar, distinto de AltaLux Mobile Detail (que es un negocio
 real, con su propio repo `altalux-app`, dominio `altaluxdetail.com`, y su
 propio proyecto de Supabase, sin relación con este). Este repo es un fork de
-`altalux-app` en el commit `38768e3` (2026-08-09), con el código
+`altalux-app` en el commit `dfe2ffd` (2026-08-09), con el código
 genericizado y una infraestructura 100% propia de acá en adelante.
 
 **No comparte nada en producción con `altalux-app`:** ni base de datos, ni
@@ -75,10 +75,16 @@ que exista Square OAuth por-tenant de verdad (fuera de alcance, fase
 futura).
 
 ## Gaps conocidos / pendientes
-- `RESEND_API_KEY` sin configurar — `send-email` fallará en runtime.
-  `send-email/index.ts` y `generate-receipt-pdf/index.ts` ya tienen sus
-  fallbacks de AltaLux limpiados (no van a filtrar datos de otro negocio
-  cuando se conecte).
+- `RESEND_API_KEY` sin configurar — `send-email` fallará en runtime hasta
+  que se setee. **Ojo:** esto es independiente del bug de las 4 emails de
+  plataforma (`tenant_pending`/`tenant_approved`/`tenant_rejected`/
+  `internal_new_signup`) que se encontró y arregló en la revisión final —
+  esas ahora usan una identidad propia de plataforma (`PLATFORM_SETTINGS`
+  en `send-email/index.ts`) en vez de depender de una fila `business_id =
+  'altalux'` que ya no existe (y no debe existir) en este proyecto. Setear
+  `RESEND_API_KEY` solo no alcanza — igual hace falta verificar
+  `altalux.io` como dominio en Resend antes de que `noreply@altalux.io`
+  (el remitente hardcodeado de `PLATFORM_SETTINGS`) pueda mandar algo real.
 - Logo neutral: `pay/index.html`, el modal de invoice de `admin/index.html`,
   y el visor de invoice siguen usando `brand/altalux-logo-color.png` como
   imagen — no existe todavía un asset neutral. El texto/contacto alrededor
@@ -99,8 +105,38 @@ futura).
   todavía viven ahí. Limpieza pendiente, fuera de alcance de este repo.
 
 ## Fixes recientes
+- **2026-08-10 (revisión final del clon):** una revisión final de todo el
+  trabajo (después de que cada tarea individual ya había pasado su propia
+  revisión) encontró 2 problemas reales que ninguna revisión por-tarea
+  podía ver por sí sola:
+  - **Crítico:** las 4 emails de onboarding de plataforma
+    (`tenant_pending`/`tenant_approved`/`tenant_rejected`/
+    `internal_new_signup`) dependían de una fila `business_id = 'altalux'`
+    en `business_settings` que la migración de purga (2026-08-10, más
+    arriba) borra a propósito — el diseño original (heredado del setup
+    compartido viejo) nunca contempló que esa fila pudiera no existir.
+    `manage-tenant` no revisaba el resultado del fetch a `send-email`, así
+    que el fallo quedaba invisible — ni Task 10 (que sí verificó los 4
+    pasos de datos de `approve_tenant`) lo detectó, porque el 5to paso (el
+    email) no es parte de esa verificación. Arreglado: `send-email/index.ts`
+    ahora usa `PLATFORM_SETTINGS`, una identidad de plataforma fija que no
+    depende de ninguna fila de tenant.
+  - **Crítico:** `internal_new_signup` (notificación de "nuevo negocio se
+    registró") mandaba al inbox real de AltaLux Mobile Detail
+    (`altaluxdetail@gmail.com`) — corregido a `altaluxtech@gmail.com` (la
+    identidad de Super Admin de esta plataforma).
+  - Limpiadas fugas adicionales de la misma clase que Tasks 5/6 no habían
+    tocado: fallback de `name`/dirección en `generate-receipt-pdf` y
+    `send-email`, wordmark + teléfono real de AltaLux en
+    `booking/success.html` y en el mensaje de error de pago de
+    `booking/index.html`, email de contacto en `terms.html`/`privacy.html`
+    (nunca estuvieron en el alcance de ninguna tarea — no eran parte del
+    deploy de AltaLux, así que ninguna auditoría los había mirado), y el
+    catálogo de fallback (`FALLBACK_SERVICES`/`FALLBACK_ADDONS` en
+    `shared/config.js`) seguía etiquetado `business_id: 'altalux'` en vez
+    de `'demo'`.
 - **2026-08-10 (deploy inicial):** clon completo de `altalux-app` (commit
-  `38768e3`) a infraestructura 100% propia — repo, Supabase, Edge
+  `dfe2ffd`) a infraestructura 100% propia — repo, Supabase, Edge
   Functions, Hostinger (mismo hosting que ya servía `altalux.io`, contenido
   reemplazado). En el camino:
   - Reconstruida la migración base de 8 tablas core (`bookings`,

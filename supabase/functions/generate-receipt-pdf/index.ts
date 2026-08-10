@@ -87,8 +87,8 @@ async function getBizInfo(supabase: ReturnType<typeof getSupabaseAdmin>, busines
     .single();
   const cityLine = [data?.city, data?.state].filter(Boolean).join(', ') + (data?.zip ? ' ' + data.zip : '');
   return {
-    name: data?.name || 'AltaLux Mobile Detail',
-    addressLine: data?.address ? `${data.address}, ${cityLine || 'Roswell, GA 30075'}` : (cityLine || 'Roswell, GA 30075'),
+    name: data?.name || '',
+    addressLine: data?.address ? `${data.address}, ${cityLine}` : cityLine,
     phone: data?.phone || '',
     email: data?.email || '',
   };

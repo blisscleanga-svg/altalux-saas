@@ -104,7 +104,7 @@ function esc(s: unknown): string {
 
 function bizAddressLine(biz: BizSettings): string {
   const cityLine = [biz.city, biz.state].filter(Boolean).join(', ') + (biz.zip ? ' ' + biz.zip : '');
-  return biz.address ? [biz.address, cityLine].filter(Boolean).join(', ') : (cityLine || 'Roswell, GA 30075');
+  return biz.address ? [biz.address, cityLine].filter(Boolean).join(', ') : cityLine;
 }
 function bizWebsiteHost(biz: BizSettings): string {
   return (biz.website || '').replace(/^https?:\/\//, '').replace(/\/$/, '');
@@ -414,14 +414,41 @@ function buildPaymentReceipt(biz: BizSettings, d: any) {
 
 // ---------- Onboarding de tenants (SaaS) — emails de la PLATAFORMA, no de
 // un negocio específico. El tenant nuevo todavía no tiene Resend
-// configurado (biz.resend_from_email vacío hasta que llegue a Settings >
-// Notifications), así que estos 4 siempre se mandan usando la config ya
-// funcional de 'altalux' (contact@altaluxdetail.com) — ver el dispatcher
-// más abajo, donde se fuerza ese businessId para este grupo de acciones.
-// Se pisa biz.name a "AltaLux App" solo para el header/footer del email
-// (no se toca la fila real de business_settings) porque esto es sobre la
-// plataforma, no sobre "AltaLux Mobile Detail" el negocio de detailing.
+// configurado (resend_from_email vacío hasta que llegue a Settings >
+// Notifications), así que estos 4 nunca dependen de ninguna fila real de
+// business_settings — usan una identidad de plataforma fija (ver
+// PLATFORM_SETTINGS / dispatcher más abajo). Antes de la separación de
+// infraestructura (2026-08-10) esto se resolvía forzando businessId a
+// 'altalux', que compartía el mismo Supabase y ya tenía Resend
+// configurado — en este stack separado esa fila no existe (y nunca debe
+// existir, ver square-payment guard), así que ese atajo rompía las 4
+// emails de plataforma. PLATFORM_SETTINGS reemplaza esa dependencia.
 const PLATFORM_URL = 'https://altalux.io';
+
+// Identidad de la plataforma (no de ningún tenant). resend_from_email
+// necesita un dominio verificado en Resend antes de que sendViaResend()
+// pueda mandar algo real — hasta entonces falla ahí con un error claro,
+// no con "business_settings no encontrado".
+const PLATFORM_SETTINGS: BizSettings = {
+  business_id: '__platform__',
+  name: 'AltaLux App',
+  email: null,
+  phone: null,
+  address: null,
+  city: null,
+  state: null,
+  zip: null,
+  website: PLATFORM_URL,
+  logo_url: null,
+  primary_color: '#104872',
+  secondary_color: '#FF8C00',
+  resend_from_email: 'noreply@altalux.io',
+  resend_from_name: 'AltaLux App',
+  notification_email: 'altaluxtech@gmail.com',
+  booking_url: null,
+  admin_url: `${PLATFORM_URL}/platform/`,
+  email_toggles: null,
+};
 
 function platformBrand(biz: BizSettings): BizSettings {
   return { ...biz, name: 'AltaLux App' };
@@ -540,10 +567,9 @@ Deno.serve(async (req: Request) => {
     }
     if (!businessId) return jsonResponse({ error: 'businessId is required.' }, 400);
 
-    // Emails de plataforma: siempre usan la config de Resend de 'altalux'
-    // (ya funcional) — el tenant nuevo del que habla el email todavía no
-    // tiene la suya propia configurada.
-    const biz = await getBizSettings(PLATFORM_ACTIONS.includes(action) ? 'altalux' : businessId);
+    // Emails de plataforma: identidad fija de PLATFORM_SETTINGS, nunca la
+    // fila de un tenant real (ver comentario arriba de PLATFORM_SETTINGS).
+    const biz = PLATFORM_ACTIONS.includes(action) ? PLATFORM_SETTINGS : await getBizSettings(businessId);
 
     const toggleKey = TOGGLE_KEY[action];
     if (biz.email_toggles && toggleKey && biz.email_toggles[toggleKey] === false) {
@@ -556,7 +582,10 @@ Deno.serve(async (req: Request) => {
 
     let to: string | null;
     if (action === 'internal_new_signup') {
-      to = 'altaluxdetail@gmail.com';
+      // Notificación de signup nuevo a la plataforma misma (Super Admin),
+      // nunca al inbox operativo de AltaLux Mobile Detail — ver
+      // PLATFORM_SETTINGS.notification_email más arriba.
+      to = PLATFORM_SETTINGS.notification_email;
     } else if (PLATFORM_ACTIONS.includes(action)) {
       to = (data && data.ownerEmail) || null;
     } else if (ADMIN_RECIPIENT_ACTIONS.includes(action)) {

@@ -85,27 +85,27 @@
   // the booking widget still needs *some* prices to not be fully broken;
   // this fallback favors "never break" over completeness.
   var FALLBACK_SERVICES = [
-    { business_id: 'altalux', category: 'full', package: 'essential', vehicle_type: 'Cars/Sedans', price: 208.99, duration_minutes: 180, description: '', included_items: { tier: 'small', includesWax: false } },
-    { business_id: 'altalux', category: 'full', package: 'essential', vehicle_type: 'Mid-Size/Compact SUVs', price: 238.99, duration_minutes: 180, description: '', included_items: { tier: 'mid', includesWax: false } },
-    { business_id: 'altalux', category: 'full', package: 'essential', vehicle_type: 'Small Trucks', price: 268.99, duration_minutes: 180, description: '', included_items: { tier: 'mid', includesWax: false } },
-    { business_id: 'altalux', category: 'full', package: 'essential', vehicle_type: 'Minivans', price: 268.99, duration_minutes: 180, description: '', included_items: { tier: 'large', includesWax: false } },
-    { business_id: 'altalux', category: 'full', package: 'essential', vehicle_type: 'Large SUVs/Trucks', price: 268.99, duration_minutes: 180, description: '', included_items: { tier: 'large', includesWax: false } },
-    { business_id: 'altalux', category: 'full', package: 'premium', vehicle_type: 'Cars/Sedans', price: 288.99, duration_minutes: 180, description: '', included_items: { tier: 'small', includesWax: true } },
-    { business_id: 'altalux', category: 'full', package: 'premium', vehicle_type: 'Mid-Size/Compact SUVs', price: 308.99, duration_minutes: 180, description: '', included_items: { tier: 'mid', includesWax: true } },
-    { business_id: 'altalux', category: 'full', package: 'premium', vehicle_type: 'Small Trucks', price: 308.99, duration_minutes: 180, description: '', included_items: { tier: 'mid', includesWax: true } },
-    { business_id: 'altalux', category: 'full', package: 'premium', vehicle_type: 'Minivans', price: 378.99, duration_minutes: 180, description: '', included_items: { tier: 'large', includesWax: true } },
-    { business_id: 'altalux', category: 'full', package: 'premium', vehicle_type: 'Large SUVs/Trucks', price: 378.99, duration_minutes: 180, description: '', included_items: { tier: 'large', includesWax: true } },
-    { business_id: 'altalux', category: 'interior', package: 'interior', vehicle_type: 'Cars/Sedans', price: 239.99, duration_minutes: 180, description: '', included_items: { tier: 'small', includesWax: false } },
-    { business_id: 'altalux', category: 'interior', package: 'interior', vehicle_type: 'Compact/Mid-Size SUV', price: 264.99, duration_minutes: 180, description: '', included_items: { tier: 'mid', includesWax: false } },
-    { business_id: 'altalux', category: 'interior', package: 'interior', vehicle_type: 'Small Truck', price: 264.99, duration_minutes: 180, description: '', included_items: { tier: 'mid', includesWax: false } },
-    { business_id: 'altalux', category: 'interior', package: 'interior', vehicle_type: 'Large SUV/3rd Row SUVs', price: 284.99, duration_minutes: 180, description: '', included_items: { tier: 'large', includesWax: false } },
-    { business_id: 'altalux', category: 'interior', package: 'interior', vehicle_type: 'Large Truck', price: 284.99, duration_minutes: 180, description: '', included_items: { tier: 'large', includesWax: false } },
-    { business_id: 'altalux', category: 'exterior', package: 'exterior', vehicle_type: 'Car', price: 159.99, duration_minutes: 180, description: '', included_items: { tier: 'small', includesWax: true } },
-    { business_id: 'altalux', category: 'exterior', package: 'exterior', vehicle_type: 'Compact/Midsize SUV', price: 189.99, duration_minutes: 180, description: '', included_items: { tier: 'mid', includesWax: true } },
-    { business_id: 'altalux', category: 'exterior', package: 'exterior', vehicle_type: 'Truck', price: 189.99, duration_minutes: 180, description: '', included_items: { tier: 'mid', includesWax: true } },
-    { business_id: 'altalux', category: 'exterior', package: 'exterior', vehicle_type: 'Minivan', price: 189.99, duration_minutes: 180, description: '', included_items: { tier: 'large', includesWax: true } },
-    { business_id: 'altalux', category: 'exterior', package: 'exterior', vehicle_type: 'Large/XL SUV', price: 219.99, duration_minutes: 180, description: '', included_items: { tier: 'large', includesWax: true } },
-    { business_id: 'altalux', category: 'exterior', package: 'exterior', vehicle_type: 'XL SUV, Truck or Van', price: 244.99, duration_minutes: 180, description: '', included_items: { tier: 'large', includesWax: true } }
+    { business_id: 'demo', category: 'full', package: 'essential', vehicle_type: 'Cars/Sedans', price: 208.99, duration_minutes: 180, description: '', included_items: { tier: 'small', includesWax: false } },
+    { business_id: 'demo', category: 'full', package: 'essential', vehicle_type: 'Mid-Size/Compact SUVs', price: 238.99, duration_minutes: 180, description: '', included_items: { tier: 'mid', includesWax: false } },
+    { business_id: 'demo', category: 'full', package: 'essential', vehicle_type: 'Small Trucks', price: 268.99, duration_minutes: 180, description: '', included_items: { tier: 'mid', includesWax: false } },
+    { business_id: 'demo', category: 'full', package: 'essential', vehicle_type: 'Minivans', price: 268.99, duration_minutes: 180, description: '', included_items: { tier: 'large', includesWax: false } },
+    { business_id: 'demo', category: 'full', package: 'essential', vehicle_type: 'Large SUVs/Trucks', price: 268.99, duration_minutes: 180, description: '', included_items: { tier: 'large', includesWax: false } },
+    { business_id: 'demo', category: 'full', package: 'premium', vehicle_type: 'Cars/Sedans', price: 288.99, duration_minutes: 180, description: '', included_items: { tier: 'small', includesWax: true } },
+    { business_id: 'demo', category: 'full', package: 'premium', vehicle_type: 'Mid-Size/Compact SUVs', price: 308.99, duration_minutes: 180, description: '', included_items: { tier: 'mid', includesWax: true } },
+    { business_id: 'demo', category: 'full', package: 'premium', vehicle_type: 'Small Trucks', price: 308.99, duration_minutes: 180, description: '', included_items: { tier: 'mid', includesWax: true } },
+    { business_id: 'demo', category: 'full', package: 'premium', vehicle_type: 'Minivans', price: 378.99, duration_minutes: 180, description: '', included_items: { tier: 'large', includesWax: true } },
+    { business_id: 'demo', category: 'full', package: 'premium', vehicle_type: 'Large SUVs/Trucks', price: 378.99, duration_minutes: 180, description: '', included_items: { tier: 'large', includesWax: true } },
+    { business_id: 'demo', category: 'interior', package: 'interior', vehicle_type: 'Cars/Sedans', price: 239.99, duration_minutes: 180, description: '', included_items: { tier: 'small', includesWax: false } },
+    { business_id: 'demo', category: 'interior', package: 'interior', vehicle_type: 'Compact/Mid-Size SUV', price: 264.99, duration_minutes: 180, description: '', included_items: { tier: 'mid', includesWax: false } },
+    { business_id: 'demo', category: 'interior', package: 'interior', vehicle_type: 'Small Truck', price: 264.99, duration_minutes: 180, description: '', included_items: { tier: 'mid', includesWax: false } },
+    { business_id: 'demo', category: 'interior', package: 'interior', vehicle_type: 'Large SUV/3rd Row SUVs', price: 284.99, duration_minutes: 180, description: '', included_items: { tier: 'large', includesWax: false } },
+    { business_id: 'demo', category: 'interior', package: 'interior', vehicle_type: 'Large Truck', price: 284.99, duration_minutes: 180, description: '', included_items: { tier: 'large', includesWax: false } },
+    { business_id: 'demo', category: 'exterior', package: 'exterior', vehicle_type: 'Car', price: 159.99, duration_minutes: 180, description: '', included_items: { tier: 'small', includesWax: true } },
+    { business_id: 'demo', category: 'exterior', package: 'exterior', vehicle_type: 'Compact/Midsize SUV', price: 189.99, duration_minutes: 180, description: '', included_items: { tier: 'mid', includesWax: true } },
+    { business_id: 'demo', category: 'exterior', package: 'exterior', vehicle_type: 'Truck', price: 189.99, duration_minutes: 180, description: '', included_items: { tier: 'mid', includesWax: true } },
+    { business_id: 'demo', category: 'exterior', package: 'exterior', vehicle_type: 'Minivan', price: 189.99, duration_minutes: 180, description: '', included_items: { tier: 'large', includesWax: true } },
+    { business_id: 'demo', category: 'exterior', package: 'exterior', vehicle_type: 'Large/XL SUV', price: 219.99, duration_minutes: 180, description: '', included_items: { tier: 'large', includesWax: true } },
+    { business_id: 'demo', category: 'exterior', package: 'exterior', vehicle_type: 'XL SUV, Truck or Van', price: 244.99, duration_minutes: 180, description: '', included_items: { tier: 'large', includesWax: true } }
   ];
 
   async function restGet(path) {
