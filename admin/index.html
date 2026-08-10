@@ -6474,12 +6474,12 @@
   }
 
   // Referencia de negocio para el header del invoice — usa Settings si
-  // están cargados, con el fallback fijo de AltaLux si Supabase no respondió.
+  // están cargados; si no, campos vacíos (nunca datos de otro tenant).
   function invoiceBizInfo(){
     const s = (window.APP_CONFIG && window.APP_CONFIG.settings) || {};
     const cityLine = [s.city, s.state].filter(Boolean).join(', ') + (s.zip ? ' ' + s.zip : '');
     return {
-      address: s.address ? `${s.address}, ${cityLine || 'Roswell, GA 30075'}` : (cityLine || 'Roswell, GA 30075'),
+      address: s.address ? `${s.address}, ${cityLine}` : cityLine,
       phone: s.phone || '',
       email: s.email || '',
       website: (s.website || '').replace(/^https?:\/\//, '')
