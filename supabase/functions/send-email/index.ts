@@ -107,7 +107,7 @@ function bizAddressLine(biz: BizSettings): string {
   return biz.address ? [biz.address, cityLine].filter(Boolean).join(', ') : (cityLine || 'Roswell, GA 30075');
 }
 function bizWebsiteHost(biz: BizSettings): string {
-  return (biz.website || 'altaluxdetail.com').replace(/^https?:\/\//, '').replace(/\/$/, '');
+  return (biz.website || '').replace(/^https?:\/\//, '').replace(/\/$/, '');
 }
 function bizWebsiteHref(biz: BizSettings): string {
   const host = bizWebsiteHost(biz);
@@ -355,7 +355,7 @@ function buildPaymentNotificationAdmin(biz: BizSettings, d: any) {
 
 // ---------- pay/ — link de pago del invoice ----------
 function payUrl(biz: BizSettings, token: string): string {
-  const base = (biz.booking_url || biz.admin_url || 'https://app.altaluxdetail.com/booking/').replace(/\/(booking|admin|technician)\/?$/, '');
+  const base = (biz.booking_url || biz.admin_url || 'https://altalux.io/booking/').replace(/\/(booking|admin|technician)\/?$/, '');
   return base + '/pay/?token=' + encodeURIComponent(token);
 }
 

@@ -90,7 +90,7 @@ async function getBizInfo(supabase: ReturnType<typeof getSupabaseAdmin>, busines
     name: data?.name || 'AltaLux Mobile Detail',
     addressLine: data?.address ? `${data.address}, ${cityLine || 'Roswell, GA 30075'}` : (cityLine || 'Roswell, GA 30075'),
     phone: data?.phone || '',
-    email: data?.email || 'contact@altaluxdetail.com',
+    email: data?.email || '',
   };
 }
 
